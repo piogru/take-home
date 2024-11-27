@@ -12,7 +12,7 @@ export const ExpandButton: FC<DeleteButtonProps> = ({
   return (
     <button
       className={`hover:text-gray-700 transition-[colors,_transform] flex items-center justify-center duration ease-in-out ${
-        isExpanded ? "rotate-180" : "rotate-0"
+        isExpanded ? "rotate-0" : "rotate-180"
       }`}
       {...props}
     >

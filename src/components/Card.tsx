@@ -1,20 +1,33 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { ListItem } from "../api/getListData";
 import { DeleteButton, ExpandButton } from "./Buttons";
 import { ChevronUpIcon } from "./icons";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useShallow } from "zustand/shallow";
+import { useStore } from "../store";
 
 type CardProps = {
+  id: ListItem["id"];
   title: ListItem["title"];
-  description: ListItem["description"];
+  description?: ListItem["description"];
 };
 
-export const Card: FC<CardProps> = ({ title, description }) => {
+export const Card: FC<CardProps> = ({ id, title, description }) => {
   const [parent] = useAutoAnimate();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { isExpanded, deleteCard, toggleCard } = useStore(
+    useShallow((state) => ({
+      isExpanded: state.expandedCardIdSet.has(id),
+      deleteCard: state.deleteCard,
+      toggleCard: state.toggleCard,
+    }))
+  );
 
   const onExpand = () => {
-    setIsExpanded((prevState) => !prevState);
+    toggleCard(id);
+  };
+
+  const onDelete = () => {
+    deleteCard(id);
   };
 
   return (
@@ -25,10 +38,12 @@ export const Card: FC<CardProps> = ({ title, description }) => {
           <ExpandButton isExpanded={isExpanded} onClick={onExpand}>
             <ChevronUpIcon />
           </ExpandButton>
-          <DeleteButton />
+          <DeleteButton onClick={onDelete} />
         </div>
       </div>
-      {isExpanded ? <p className="text-sm">{description}</p> : null}
+      {description ? (
+        <>{isExpanded ? <p className="text-sm">{description}</p> : null}</>
+      ) : null}
     </div>
   );
 };
