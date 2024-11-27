@@ -5,6 +5,7 @@ import { useStore } from "../store";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Card } from "./Card";
 import { Spinner } from "./Spinner";
+import { RefreshButton } from "./Refresh";
 
 export const Entrypoint = () => {
   const [parent] = useAutoAnimate();
@@ -39,7 +40,6 @@ export const Entrypoint = () => {
         },
         { visibleCards: [], deletedCards: [] }
       );
-      console.log(visibleCards, deletedCards);
 
       setVisibleCards(visibleCards);
       setDeletedCards(deletedCards);
@@ -57,9 +57,12 @@ export const Entrypoint = () => {
   return (
     <div className="flex gap-x-16">
       <div className="w-72 max-w-xl bg-blue-500/50">
-        <h1 className="mb-1 font-medium text-lg">
-          My Awesome List ({visibleCards.length})
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="mb-1 font-medium text-lg">
+            My Awesome List ({visibleCards.length})
+          </h1>
+          <RefreshButton />
+        </div>
         <div ref={parent} className="flex flex-col gap-y-3">
           {visibleCards.map((card) => (
             <Card
