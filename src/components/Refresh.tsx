@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetListData } from "../api/getListData";
+import { ToggleButton } from "./Buttons";
 
 export const RefreshButton = () => {
   const queryClient = useQueryClient();
@@ -10,11 +11,8 @@ export const RefreshButton = () => {
   };
 
   return (
-    <button
-      className="text-white text-sm transition-colors hover:bg-gray-800 disabled:bg-black/75 bg-black rounded px-3 py-1"
-      onClick={onRefresh}
-    >
+    <ToggleButton onClick={onRefresh}>
       {isFetching ? "Refreshing..." : "Refresh"}
-    </button>
+    </ToggleButton>
   );
 };

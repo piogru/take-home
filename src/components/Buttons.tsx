@@ -1,19 +1,13 @@
 import { ComponentProps, FC } from "react";
-import { XMarkIcon } from "./icons";
+import { ChevronDownIcon, XMarkIcon } from "./icons";
 
 type ButtonProps = ComponentProps<"button">;
-type DeleteButtonProps = { isExpanded: boolean } & ButtonProps;
+type ExpandButtonProps = { isExpanded: boolean } & ButtonProps;
 
-export const ExpandButton: FC<DeleteButtonProps> = ({
-  isExpanded,
-  children,
-  ...props
-}) => {
+export const IconButton: FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <button
-      className={`hover:text-gray-700 transition-[colors,_transform] flex items-center justify-center duration ease-in-out ${
-        isExpanded ? "rotate-0" : "rotate-180"
-      }`}
+      className="w-6 hover:text-gray-700 transition-colors flex items-center justify-center"
       {...props}
     >
       {children}
@@ -23,11 +17,42 @@ export const ExpandButton: FC<DeleteButtonProps> = ({
 
 export const DeleteButton: FC<Omit<ButtonProps, "children">> = (props) => {
   return (
+    <IconButton {...props}>
+      <XMarkIcon />
+    </IconButton>
+  );
+};
+
+export const ExpandButton: FC<Omit<ExpandButtonProps, "children">> = ({
+  isExpanded,
+  ...props
+}) => {
+  return (
+    <IconButton {...props}>
+      <span className="sr-only">{isExpanded ? "Collapse" : "Expand"}</span>
+      <div
+        className={`transition duration-300 ease-in-out ${
+          isExpanded ? "rotate-180" : "rotate-0"
+        }`}
+      >
+        <ChevronDownIcon />
+      </div>
+    </IconButton>
+  );
+};
+
+export const ToggleButton: FC<ButtonProps> = ({
+  onClick,
+  children,
+  ...props
+}) => {
+  return (
     <button
-      className="hover:text-gray-700 transition-colors flex items-center justify-center"
+      className={`text-white text-sm transition-colors hover:bg-gray-800 disabled:bg-black/75 bg-black rounded px-3 py-1`}
+      onClick={onClick}
       {...props}
     >
-      <XMarkIcon />
+      {children}
     </button>
   );
 };

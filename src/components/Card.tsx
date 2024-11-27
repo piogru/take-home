@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { ListItem } from "../api/getListData";
 import { DeleteButton, ExpandButton } from "./Buttons";
-import { ChevronUpIcon } from "./icons";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useShallow } from "zustand/shallow";
 import { useStore } from "../store";
@@ -35,9 +34,7 @@ export const Card: FC<CardProps> = ({ id, title, description }) => {
       <div className="flex justify-between mb-0.5">
         <h1 className="font-medium">{title}</h1>
         <div className="flex">
-          <ExpandButton isExpanded={isExpanded} onClick={onExpand}>
-            <ChevronUpIcon />
-          </ExpandButton>
+          <ExpandButton isExpanded={isExpanded} onClick={onExpand} />
           <DeleteButton onClick={onDelete} />
         </div>
       </div>
