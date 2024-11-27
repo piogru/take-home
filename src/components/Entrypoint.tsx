@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { DeletedListItem, ListItem, useGetListData } from "../api/getListData";
 import { useShallow } from "zustand/shallow";
 import { useStore } from "../store";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { Card } from "./Card";
 import { Spinner } from "./Spinner";
 import { RefreshButton } from "./Refresh";
 import { ToggleButton } from "./Buttons";
+import { CardList } from "./CardList";
 
 export const Entrypoint = () => {
-  const [parent] = useAutoAnimate();
   const [visibleCards, setVisibleCards] = useState<ListItem[]>([]);
   const [deletedCards, setDeletedCards] = useState<DeletedListItem[]>([]);
   const [revealDeletedCards, setRevealDeletedCards] = useState(false);
@@ -33,7 +31,7 @@ export const Entrypoint = () => {
         (ctx, item) => {
           if (item.isVisible) {
             if (deletedCardIdSet.has(item.id)) {
-              ctx.deletedCards.push(item);
+              ctx.deletedCards.push(item as DeletedListItem);
             } else {
               ctx.visibleCards.push(item);
             }
@@ -69,16 +67,7 @@ export const Entrypoint = () => {
           </h1>
           <RefreshButton />
         </div>
-        <div ref={parent} className="flex flex-col gap-y-3">
-          {visibleCards.map((card) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              title={card.title}
-              description={card.description}
-            />
-          ))}
-        </div>
+        <CardList cards={visibleCards} />
       </div>
       <div className="w-full max-w-xl">
         <div className="flex items-center justify-between">
@@ -89,13 +78,7 @@ export const Entrypoint = () => {
             {revealDeletedCards ? "Hide" : "Reveal"}
           </ToggleButton>
         </div>
-        {revealDeletedCards ? (
-          <div className="flex flex-col gap-y-3">
-            {deletedCards.map((card) => (
-              <Card key={card.id} id={card.id} title={card.title} />
-            ))}
-          </div>
-        ) : null}
+        {revealDeletedCards ? <CardList cards={deletedCards} /> : null}
       </div>
     </div>
   );

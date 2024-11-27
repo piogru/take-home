@@ -1,9 +1,10 @@
 import { FC } from "react";
 import { ListItem } from "../api/getListData";
-import { DeleteButton, ExpandButton } from "./Buttons";
+import { DeleteButton, ExpandButton, ToggleButton } from "./Buttons";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useShallow } from "zustand/shallow";
 import { useStore } from "../store";
+import { RevertIcon } from "./icons";
 
 type CardProps = {
   id: ListItem["id"];
@@ -13,13 +14,16 @@ type CardProps = {
 
 export const Card: FC<CardProps> = ({ id, title, description }) => {
   const [parent] = useAutoAnimate();
-  const { isExpanded, deleteCard, toggleCard } = useStore(
-    useShallow((state) => ({
-      isExpanded: state.expandedCardIdSet.has(id),
-      deleteCard: state.deleteCard,
-      toggleCard: state.toggleCard,
-    }))
-  );
+  const { isExpanded, isDeleted, deleteCard, restoreCard, toggleCard } =
+    useStore(
+      useShallow((state) => ({
+        isExpanded: state.expandedCardIdSet.has(id),
+        isDeleted: state.deletedCardIdSet.has(id),
+        deleteCard: state.deleteCard,
+        restoreCard: state.restoreCard,
+        toggleCard: state.toggleCard,
+      }))
+    );
 
   const onExpand = () => {
     toggleCard(id);
@@ -29,16 +33,28 @@ export const Card: FC<CardProps> = ({ id, title, description }) => {
     deleteCard(id);
   };
 
+  const onRestore = () => {
+    restoreCard(id);
+  };
+
   return (
     <div ref={parent} className="w-full border border-black px-2 py-1.5">
       <div className="flex justify-between mb-0.5">
         <h1 className="font-medium">{title}</h1>
         <div className="flex">
-          <ExpandButton isExpanded={isExpanded} onClick={onExpand} />
-          <DeleteButton onClick={onDelete} />
+          {isDeleted ? (
+            <ToggleButton onClick={onRestore}>
+              <RevertIcon />
+            </ToggleButton>
+          ) : (
+            <>
+              <ExpandButton isExpanded={isExpanded} onClick={onExpand} />
+              <DeleteButton onClick={onDelete} />
+            </>
+          )}
         </div>
       </div>
-      {description ? (
+      {!isDeleted ? (
         <>{isExpanded ? <p className="text-sm">{description}</p> : null}</>
       ) : null}
     </div>
