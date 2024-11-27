@@ -24,7 +24,7 @@ export const Entrypoint = () => {
 
   return (
     <div className="flex gap-x-16">
-      <div className="w-full max-w-xl">
+      <div className="w-72 max-w-xl bg-blue-500/50">
         <h1 className="mb-1 font-medium text-lg">My Awesome List ({visibleCards.length})</h1>
         <div className="flex flex-col gap-y-3">
           {visibleCards.map((card) => (
@@ -32,7 +32,7 @@ export const Entrypoint = () => {
           ))}
         </div>
       </div>
-      <div className="w-full max-w-xl">
+      <div className="w-72 max-w-xl bg-slate-400">
         <div className="flex items-center justify-between">
           <h1 className="mb-1 font-medium text-lg">Deleted Cards (0)</h1>
           <button
