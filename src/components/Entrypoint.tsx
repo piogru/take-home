@@ -61,8 +61,8 @@ export const Entrypoint = () => {
   }
 
   return (
-    <div className="flex gap-x-16">
-      <div className="w-72 max-w-xl">
+    <div className="flex gap-x-16 w-full max-w-[76rem]">
+      <div className="w-full max-w-xl">
         <div className="flex items-center justify-between">
           <h1 className="mb-1 font-medium text-lg">
             My Awesome List ({visibleCards.length})
@@ -80,7 +80,7 @@ export const Entrypoint = () => {
           ))}
         </div>
       </div>
-      <div className="w-72 max-w-xl">
+      <div className="w-full max-w-xl">
         <div className="flex items-center justify-between">
           <h1 className="mb-1 font-medium text-lg">
             Deleted Cards ({deletedCards.length})

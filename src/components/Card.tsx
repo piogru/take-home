@@ -30,7 +30,7 @@ export const Card: FC<CardProps> = ({ id, title, description }) => {
   };
 
   return (
-    <div ref={parent} className="w-72 border border-black px-2 py-1.5">
+    <div ref={parent} className="w-full border border-black px-2 py-1.5">
       <div className="flex justify-between mb-0.5">
         <h1 className="font-medium">{title}</h1>
         <div className="flex">
